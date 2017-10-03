@@ -14,3 +14,10 @@
          margin: 0 auto;   
          width: 700px;
     }
+    
+    radio_layout {
+        display: inline-block;
+        color: black;
+        background-color: white;
+        opacity: 0.2;
+    }

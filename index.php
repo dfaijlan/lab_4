@@ -1,28 +1,29 @@
-<!DOCTYPE html>
 <?php
+
     $backgroundImage = "Slider/img/sea.jpg";
     
-    // API call goes here
     if (isset($_GET['keyword']))
     {
        include 'Slider/api/pixabayAPI.php';
+       $keyword = $_GET['keyword'];
+       $layout = $_GET['layout'];
        if (isset($_GET['layout']))
        {
-             $imageURLs = getImageURLs($_GET['keyword'], $_GET['layout']);
+             $imageURLs = getImageURLs($keyword, $layout);
        }
        else
        {
-           $imageURLs = getImageURLs($_GET['keyword']);
+           $imageURLs = getImageURLs($keyword);
        }
        $backgroundImage = $imageURLs[array_rand($imageURLs)];
     }
 ?>
+<!DOCTYPE html>
 <html>
     <head>
         <title>Image Carousel</title>
-        
+        <meta charset="utf-8">
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
         <style>
             @import url("Slider/css/styles.css");
             body {
@@ -41,13 +42,14 @@
             {
                 // Display Carousel Here
         ?>
+        
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
             <!-- Indicators Here -->
             <ol class="carousel-indicators">
                 <?php
-                    for ($i = 0; $i < 5; $i++) {
+                    for ($i = 0; $i < 7; $i++) {
                         echo "<li data-target='#carousel-example-generic' data-slide-to='$i'";
-                        echo ($i == 0)?" class='active'": "";
+                        echo ($i == 0) ? "class='active'" : "";
                         echo "></li>";
                     }
                 ?>
@@ -55,14 +57,14 @@
             <!-- Wrapper for Images -->
             <div class="carousel-inner" role="listbox">
                 <?php
-                    for ($i = 0; $i < 5; $i++) {
+                    for ($i = 0; $i < 7; $i++) {
                         do {
                             $randomIndex = rand(0, count($imageURLs));
                         }
                         while (!isset($imageURLS[$randomIndex]));
                         
                         echo '<div class="item ';
-                        echo ($i == 0)?"active": "";
+                        echo ($i == 0) ? "active" : "";
                         echo '">';
                         echo '<img src="' . $imageURLs[$randomIndex] . '">';
                         echo '</div>';
@@ -85,20 +87,24 @@
         <?php
             } // End of the else statement
         ?>
+        <br
         <!-- HTML form goes here! -->
         <form>
-            <input type="text" name="keyword" placeholder="Keyword">
-            <input type="submit" value="Submit" />
-            <form action="">
-                <div id="radio_layout">
-                    <input type="radio" name="layout" value="horizontal" id="layout_h"> 
-                    <label for="layout_h">Horizontal</label> <br>
-                    <input type="radio" name="layout" value="vertical" id="layout_v">
-                    <label for="layout_v">Vertical</label> <br>
-                </div>
-            </form>
+            <input type="text" name="keyword" placeholder="Keyword" value"<?=$_GET['keyword']?>"/>
+            <input type="radio" id ="lhorizontal" name = "layout" value = "horizontal">
+            <label for = "Horizontal"></label><label for="lhorizontal">Horizontal</label>
+            <input type="radio" id ="lvertical" name = "layout" value = "veritcal">
+            <label for = "vertical"></label><label for="lvertical">Vertical</label>
+            <select name = "category">
+                <option value ="">Select One</option>
+                <option value ="ocean">Sea</option>
+                <option>Forest</option>
+                <option>Mountain</option>
+                <option>Snow</option>
+            </select>
+            <input type="submit" value="Search" />
         </form>
-        <br/> <br/>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </body>
